@@ -1,9 +1,9 @@
 version: '3.9'
 services:
-  chatgpt-midjourney:
+  chat-next-midjourney-web:
     profiles: ["no-proxy"]
-    container_name: chatgpt-midjourney
-    image: licoy/chatgpt-midjourney
+    container_name: chat-next-midjourney-web
+    image: durianice/chat-next-midjourney-web
     ports:
       - 3000:3000
     environment:
@@ -14,10 +14,10 @@ services:
       - HIDE_USER_API_KEY=$HIDE_USER_API_KEY
       - DISABLE_GPT4=$DISABLE_GPT4
 
-  chatgpt-midjourney-proxy:
+  chat-next-midjourney-web-proxy:
     profiles: ["proxy"]
-    container_name: chatgpt-midjourney-proxy
-    image: licoy/chatgpt-midjourney
+    container_name: chat-next-midjourney-web-proxy
+    image: durianice/chat-next-midjourney-web
     ports:
       - 3000:3000
     environment:

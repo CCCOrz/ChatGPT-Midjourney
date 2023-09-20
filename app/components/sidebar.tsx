@@ -9,7 +9,7 @@ import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
-import GemIcon from "../icons/gem.svg";
+import PluginIcon from "../icons/plugin.svg";
 import DragIcon from "../icons/drag.svg";
 
 import Locale from "../locales";
@@ -137,10 +137,10 @@ export function SideBar(props: { className?: string }) {
           shadow
         />
         <IconButton
-          icon={<GemIcon />}
-          text={shouldNarrow ? undefined : "Pro"}
+          icon={<PluginIcon />}
+          text={shouldNarrow ? undefined : Locale.Plugin.Name}
           className={styles["sidebar-bar-button"]}
-          onClick={() => window.open(REPO_URL + "-Pro", "_blank")}
+          onClick={() => showToast(Locale.WIP)}
           shadow
         />
       </div>
