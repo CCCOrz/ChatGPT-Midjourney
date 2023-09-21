@@ -515,6 +515,12 @@ export const useChatStore = create<ChatStore>()(
                                 );
                             } else {
                                 const resJson = await res.json();
+                                if (resJson?.status === "FAIL") {
+                                    botMessage.content =Locale.Midjourney.TaskSubmitErr(
+                                        resJson.msg
+                                    );
+                                    return;
+                                }
                                 const taskId: string = resJson.taskId;
                                 const prefixContent = Locale.Midjourney.TaskPrefix(
                                     prompt,

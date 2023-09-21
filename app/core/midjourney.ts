@@ -15,6 +15,10 @@ export class MidjourneyApi {
         return !!this.client
     }
 
+    isInValidConfig() {
+        return !!!process.env.MJ_SERVER_ID || !!!process.env.MJ_CHANNEL_ID || !!!process.env.MJ_USER_TOKEN;
+    }
+
     generateTaskId() {
         return uuidv4()
     }

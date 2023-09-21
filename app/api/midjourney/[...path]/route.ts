@@ -11,6 +11,9 @@ async function handle(req: NextRequest, {params}: { params: { path: string[] } }
             status: 401,
         });
     }
+    if (api.isInValidConfig()) {
+        return NextResponse.json({code: -1, status: 'FAIL', msg: '未配置Midjourney参数'}, {status: 200});
+    }
     if (!api.isStarted()) {
         try {
             await api.start()
