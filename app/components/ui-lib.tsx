@@ -98,6 +98,7 @@ export function Loading() {
 }
 
 interface ModalProps {
+  width?: string | number;
   title: string;
   children?: any;
   actions?: JSX.Element[];
@@ -127,17 +128,20 @@ export function Modal(props: ModalProps) {
       className={
         styles["modal-container"] + ` ${isMax && styles["modal-container-max"]}`
       }
+      style={{ width: props.width }}
     >
       <div className={styles["modal-header"]}>
         <div className={styles["modal-title"]}>{props.title}</div>
 
         <div className={styles["modal-header-actions"]}>
-          <div
-            className={styles["modal-header-action"]}
-            onClick={() => setMax(!isMax)}
-          >
-            {isMax ? <MinIcon /> : <MaxIcon />}
-          </div>
+          {!props.width && (
+            <div
+              className={styles["modal-header-action"]}
+              onClick={() => setMax(!isMax)}
+            >
+              {isMax ? <MinIcon /> : <MaxIcon />}
+            </div>
+          )}
           <div
             className={styles["modal-header-action"]}
             onClick={props.onClose}
@@ -485,4 +489,76 @@ export function Selector<T>(props: {
       </div>
     </div>
   );
+}
+
+export function showColorSelectModal(config: { currenColor: string }) {
+  const ColorSelect = (props?: any) => {
+    const [color, setColor] = useState<string>(props?.color);
+    return (
+      <div style={{ textAlign: "center" }}>
+        <input
+          onChange={(e) => {
+            setColor(e?.target?.value);
+            props.update(e?.target?.value);
+          }}
+          type="color"
+          value={color}
+        />
+      </div>
+    );
+  };
+  const div = document.createElement("div");
+  div.className = "modal-mask";
+  document.body.appendChild(div);
+
+  const root = createRoot(div);
+  const closeModal = () => {
+    root.unmount();
+    div.remove();
+  };
+
+  return new Promise<string>((resolve) => {
+    let selectColor = "";
+    root.render(
+      <Modal
+        title="设置主题色"
+        width="20vw"
+        defaultMax={false}
+        actions={[
+          <IconButton
+            key="cancel"
+            text={Locale.UI.Cancel}
+            onClick={() => {
+              resolve("");
+              closeModal();
+            }}
+            icon={<CancelIcon />}
+            tabIndex={0}
+            bordered
+            shadow
+          ></IconButton>,
+          <IconButton
+            key="confirm"
+            text={Locale.UI.Confirm}
+            type="primary"
+            onClick={() => {
+              resolve(selectColor);
+              closeModal();
+            }}
+            icon={<ConfirmIcon />}
+            tabIndex={0}
+            autoFocus
+            bordered
+            shadow
+          ></IconButton>,
+        ]}
+        onClose={closeModal}
+      >
+        <ColorSelect
+          color={config.currenColor}
+          update={(color: string) => selectColor = color}
+        />
+      </Modal>,
+    );
+  });
 }

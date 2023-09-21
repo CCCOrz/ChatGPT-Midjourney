@@ -131,6 +131,11 @@
   .mobile {
     display: block;
   }
+  .sidebar-tail {
+    .sidebar-action:not(:last-child) {
+        margin-right: 10px;
+      }
+  }
 }
 
 .sidebar-header {

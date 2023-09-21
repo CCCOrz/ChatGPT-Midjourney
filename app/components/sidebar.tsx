@@ -11,10 +11,11 @@ import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
 import PluginIcon from "../icons/plugin.svg";
 import DragIcon from "../icons/drag.svg";
+import ThemeIcon from "../icons/theme.svg";
 
 import Locale from "../locales";
 
-import { useAppConfig, useChatStore } from "../store";
+import { ChatConfigStore, useAppConfig, useChatStore } from "../store";
 
 import {
   MAX_SIDEBAR_WIDTH,
@@ -25,9 +26,9 @@ import {
 } from "../constant";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useMobileScreen } from "../utils";
+import { useMobileScreen, setCSSColor } from "../utils";
 import dynamic from "next/dynamic";
-import { showConfirm, showToast } from "./ui-lib";
+import { showColorSelectModal, showConfirm, showToast } from "./ui-lib";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -98,6 +99,11 @@ function useDragSideBar() {
     onDragMouseDown,
     shouldNarrow,
   };
+}
+
+async function handleMainColor(config: ChatConfigStore) {
+    const color = await showColorSelectModal({currenColor: config.themeColor});
+    color && config.update((config) => (config.themeColor = color));
 }
 
 export function SideBar(props: { className?: string }) {
@@ -177,6 +183,11 @@ export function SideBar(props: { className?: string }) {
             <a href={REPO_URL} target="_blank">
               <IconButton icon={<GithubIcon />} shadow />
             </a>
+          </div>
+          <div className={styles["sidebar-action"]}>
+            <span onClick={() => handleMainColor(config)}>
+              <IconButton icon={<ThemeIcon />} shadow />
+            </span>
           </div>
         </div>
         <div>

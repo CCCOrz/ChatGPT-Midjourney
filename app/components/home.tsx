@@ -9,7 +9,7 @@ import styles from "./home.module.scss";
 import BotIcon from "../icons/bot.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 
-import { getCSSVar, useMobileScreen } from "../utils";
+import { getCSSVar, setCSSColor, useMobileScreen } from "../utils";
 
 import dynamic from "next/dynamic";
 import { Path, SlotID } from "../constant";
@@ -62,10 +62,13 @@ export function useSwitchTheme() {
     document.body.classList.remove("light");
     document.body.classList.remove("dark");
 
+    let setColorClassName = ''
     if (config.theme === "dark") {
       document.body.classList.add("dark");
+      setColorClassName = '.dark'
     } else if (config.theme === "light") {
       document.body.classList.add("light");
+      setColorClassName = '.light'
     }
 
     const metaDescriptionDark = document.querySelector(
@@ -83,7 +86,8 @@ export function useSwitchTheme() {
       metaDescriptionDark?.setAttribute("content", themeColor);
       metaDescriptionLight?.setAttribute("content", themeColor);
     }
-  }, [config.theme]);
+    config.themeColor && setCSSColor(setColorClassName, config.themeColor);
+  }, [config.theme, config.themeColor]);
 }
 
 function useHtmlLang() {

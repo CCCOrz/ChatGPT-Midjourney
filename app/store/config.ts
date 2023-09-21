@@ -25,6 +25,7 @@ export const DEFAULT_CONFIG = {
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
+  themeColor: '',
   tightBorder: !!getClientConfig()?.isApp,
   sendPreviewBubble: true,
   enableAutoGenerateTitle: true,
