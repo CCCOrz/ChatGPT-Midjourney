@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Publish Docker image"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: SSH connect and update Docker image
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        USERNAME: ${{ secrets.VPS_USERNAME }}
+        PORT: ${{ secrets.VPS_PORT }}
+        KEY: ${{ secrets.VPS_SSHKEY }}
+        script: |
+          docker stop chat-next-midjourney-web
+          docker rm chat-next-midjourney-web
+          docker pull durianice/chat-next-midjourney-web:latest
+          docker run -d -p 3000:3000 \
+            -e OPENAI_API_KEY="" \
+            -e BASE_URL="https://api.openai.com" \
+            -e MJ_SERVER_ID="" \
+            -e MJ_CHANNEL_ID="" \
+            -e MJ_USER_TOKEN="" \
+            --name chat-next-midjourney-web \
+            durianice/chat-next-midjourney-web
