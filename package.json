@@ -1,6 +1,6 @@
 {
   "name": "chatgpt-midjourney",
-  "version": "3.1.1",
+  "version": "1.0.0-dev",
   "private": false,
   "license": "MIT",
   "repository": {
