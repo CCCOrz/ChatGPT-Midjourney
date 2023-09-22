@@ -1388,26 +1388,26 @@ function _Chat() {
                     </div>
                 )}
                 <div className={styles["chat-input-panel-inner"]}>
-          <textarea
-              ref={inputRef}
-              className={styles["chat-input"]}
-              placeholder={
-                  useImages.length > 0 && mjImageMode != "IMAGINE"
-                      ? Locale.Midjourney.InputDisabled
-                      : Locale.Chat.Input(submitKey)
-              }
-              onInput={(e) => onInput(e.currentTarget.value)}
-              value={userInput}
-              onKeyDown={onInputKeyDown}
-              onFocus={scrollToBottom}
-              onClick={scrollToBottom}
-              rows={inputRows}
-              autoFocus={autoFocus}
-              style={{
-                  fontSize: config.fontSize,
-              }}
-              disabled={useImages.length > 0 && mjImageMode != "IMAGINE"}
-          />
+                    <textarea
+                        ref={inputRef}
+                        className={styles["chat-input"]}
+                        placeholder={
+                            useImages.length > 0 && mjImageMode != "IMAGINE"
+                                ? Locale.Midjourney.InputDisabled
+                                : Locale.Chat.Input(submitKey)
+                        }
+                        onInput={(e) => onInput(e.currentTarget.value)}
+                        value={userInput}
+                        onKeyDown={onInputKeyDown}
+                        onFocus={scrollToBottom}
+                        onClick={scrollToBottom}
+                        rows={inputRows}
+                        autoFocus={autoFocus}
+                        style={{
+                            fontSize: config.fontSize,
+                        }}
+                        disabled={useImages.length > 0 && mjImageMode != "IMAGINE"}
+                    />
                     <IconButton
                         icon={<SendWhiteIcon/>}
                         text={Locale.Chat.Send}

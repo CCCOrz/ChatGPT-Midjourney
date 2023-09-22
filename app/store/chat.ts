@@ -451,11 +451,12 @@ export const useChatStore = create<ChatStore>()(
 
                 if (
                     content.toLowerCase().startsWith("/mj") ||
-                    content.toLowerCase().startsWith("/MJ")
+                    content.toLowerCase().startsWith("/MJ") ||
+                    modelConfig.model === "midjourney"
                 ) {
                     botMessage.model = "midjourney";
                     const startFn = async () => {
-                        const prompt = content.substring(3).trim();
+                        const prompt = ["/mj", "/MJ"].some(c => content.includes(c)) ? content.substring(3).trim() : content;
                         let action: string = "IMAGINE";
                         console.log(action);
                         const firstSplitIndex = prompt.indexOf("::");

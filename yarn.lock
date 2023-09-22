@@ -5234,6 +5234,20 @@ micromatch@^4.0.4, micromatch@^4.0.5:
     braces "^3.0.2"
     picomatch "^2.3.1"
 
+midjourney-jk@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/midjourney-jk/-/midjourney-jk-4.0.0.tgz#8b194885943acef25ee3d37371270c824c614af8"
+  integrity sha512-a6svrLg1NO5M6AGeF/mOIyOEoXg//r3RpJ0XkEV1CwTmatIod0fVY0SCurauaECh9VdqRk0OD5KQAg8MqxApdQ==
+  dependencies:
+    "@huggingface/inference" "^2.5.0"
+    async "^3.2.4"
+    isomorphic-ws "^5.0.0"
+    replicate "^0.18.0"
+    semiver "^1.1.0"
+    snowyflake "^2.0.0"
+    tslib "^2.5.0"
+    ws "^8.13.0"
+
 midjourney@^4.3.11:
   version "4.3.12"
   resolved "https://registry.yarnpkg.com/midjourney/-/midjourney-4.3.12.tgz#8f149eb39b57e4ca7e2b3446ae8ca6041a2ae534"
@@ -6041,6 +6055,11 @@ remark-rehype@^10.0.0:
     "@types/mdast" "^3.0.0"
     mdast-util-to-hast "^12.1.0"
     unified "^10.0.0"
+
+replicate@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.18.0.tgz#9ec0e8b2447b2f5238e2601fefe66ecf1f7db2a2"
+  integrity sha512-b1SabhR4XFXqWbM4551tmc7hL+x+dnzka9YA6lcbzbyGDPHKELRdgRc6nn9jxK1VyTg70O39mCIo0e15DVZELw==
 
 require-directory@^2.1.1:
   version "2.1.1"

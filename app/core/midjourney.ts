@@ -1,4 +1,4 @@
-import {Midjourney, MJMessage} from "midjourney";
+import {Midjourney, MJMessage} from "midjourney-jk";
 
 const {v4: uuidv4} = require('uuid');
 
@@ -79,6 +79,7 @@ export class MidjourneyApi {
             ServerId: <string>process.env.MJ_SERVER_ID,
             ChannelId: <string>process.env.MJ_CHANNEL_ID,
             SalaiToken: <string>process.env.MJ_USER_TOKEN,
+            ReplicateToken: <string>process.env.REPLICATE_TOKEN || '',
             Debug: true,
             Ws: true,
         }
