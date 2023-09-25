@@ -2,13 +2,19 @@ name: Deploy
 
 on:
   workflow_run:
-    workflows: ["Publish Docker image"]
+    workflows: ["Docker"]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      manual_deploy:
+        description: '手动部署'
+        required: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
     - name: SSH connect and update Docker image
       uses: appleboy/ssh-action@master
@@ -27,7 +33,7 @@ jobs:
             -e MJ_SERVER_ID=${{ secrets.MJ_SERVER_ID }} \
             -e MJ_CHANNEL_ID=${{ secrets.MJ_CHANNEL_ID }} \
             -e MJ_USER_TOKEN=${{ secrets.MJ_USER_TOKEN }} \
-            -e REPLICATE_TOKEN=${{ secrets.REPLICATE_TOKEN }}
+            -e REPLICATE_TOKEN=${{ secrets.REPLICATE_TOKEN }} \
             -e CODE=${{ secrets.WEB_PWD }} \
             --name chat-next-midjourney-web \
             durianice/chat-next-midjourney-web
