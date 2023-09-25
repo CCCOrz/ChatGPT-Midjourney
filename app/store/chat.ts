@@ -372,16 +372,16 @@ export const useChatStore = create<ChatStore>()(
                                 `**${
                                     Locale.Midjourney.TaskStatus
                                 }:** [${new Date().toLocaleString()}] - ${content}`;
-                            if (
-                                statusResJson.status === "PROGRESS" &&
-                                statusResJson.uri
-                            ) {
-                                let imgUrl = useGetMidjourneySelfProxyUrl(
-                                    statusResJson.uri,
-                                );
-                                botMessage.attr.imgUrl = imgUrl;
-                                botMessage.content += `\n[![${taskId}](${imgUrl})](${imgUrl})`;
-                            }
+                            // if (
+                            //     statusResJson.status === "PROGRESS" &&
+                            //     statusResJson.uri
+                            // ) {
+                            //     let imgUrl = useGetMidjourneySelfProxyUrl(
+                            //         statusResJson.uri,
+                            //     );
+                            //     botMessage.attr.imgUrl = imgUrl;
+                            //     botMessage.content += `\n[![${taskId}](${imgUrl})](${imgUrl})`;
+                            // }
                             this.fetchMidjourneyStatus(botMessage, extAttr);
                         }
                         set(() => ({}));
