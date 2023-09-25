@@ -27,6 +27,7 @@ jobs:
             -e MJ_SERVER_ID=${{ secrets.MJ_SERVER_ID }} \
             -e MJ_CHANNEL_ID=${{ secrets.MJ_CHANNEL_ID }} \
             -e MJ_USER_TOKEN=${{ secrets.MJ_USER_TOKEN }} \
+            -e REPLICATE_TOKEN=${{ secrets.REPLICATE_TOKEN }}
             -e CODE=${{ secrets.WEB_PWD }} \
             --name chat-next-midjourney-web \
             durianice/chat-next-midjourney-web

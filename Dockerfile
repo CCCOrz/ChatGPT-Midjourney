@@ -34,6 +34,7 @@ ENV CODE=""
 ENV MJ_SERVER_ID=""
 ENV MJ_CHANNEL_ID=""
 ENV MJ_USER_TOKEN=""
+ENV REPLICATE_TOKEN=""
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
