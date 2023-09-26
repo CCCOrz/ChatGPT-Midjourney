@@ -29,11 +29,12 @@ jobs:
           docker pull durianice/chat-next-midjourney-web:latest
           docker run -d -p 3000:3000 \
             -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
-            -e BASE_URL="https://api.openai.com" \
+            -e BASE_URL="${{ secrets.BASE_URL }}" \
             -e MJ_SERVER_ID=${{ secrets.MJ_SERVER_ID }} \
             -e MJ_CHANNEL_ID=${{ secrets.MJ_CHANNEL_ID }} \
             -e MJ_USER_TOKEN=${{ secrets.MJ_USER_TOKEN }} \
             -e REPLICATE_TOKEN=${{ secrets.REPLICATE_TOKEN }} \
             -e CODE=${{ secrets.WEB_PWD }} \
+            -e DISABLE_GPT4=${{ secrets.DISABLE_GPT4 }} \
             --name chat-next-midjourney-web \
             durianice/chat-next-midjourney-web

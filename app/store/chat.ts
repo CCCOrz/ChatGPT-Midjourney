@@ -360,6 +360,14 @@ export const useChatStore = create<ChatStore>()(
                             case "SUBMITTED":
                                 content = Locale.Midjourney.TaskRemoteSubmit;
                                 break;
+                            case "QUEUE":
+                                content = statusResJson.msg;
+                                botMessage.content =
+                                    prefixContent +
+                                    `**${
+                                        Locale.Midjourney.TaskStatus
+                                    }:** [${new Date().toLocaleString()}] - ${content}`;
+                                break;
                             default:
                                 content = statusResJson.status;
                         }

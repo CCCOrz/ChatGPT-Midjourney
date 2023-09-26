@@ -6,9 +6,47 @@ export class MidjourneyApi {
     private client?: Midjourney
     private tasks: any = {}
     private initLock: boolean = false
+    private queue: Array<any> = []
+    private taskLock: boolean = false
 
     constructor() {
         console.log('midjourney api server constructor')
+    }
+
+    push(data: any): {} {
+        const taskId = this.generateTaskId()
+        data.taskId = taskId
+        this.tasks[taskId] = {
+            taskId,
+            prompt: data.prompt,
+            action: data.action,
+            cmd: data.cmd,
+            status: this.taskLock ? 'QUEUE' : 'SUBMITTED',
+            code: 0,
+            msg: `预计等待 ${this.queue.length * 2} 分钟`
+        }
+        this.queue.push(data)
+        try {
+            this.process.call(this);
+            return this.tasks[taskId]
+        } catch (error) {
+            return {taskId, status: 'FAIL', msg: 'unknow error in MidjourneyApi client', code: 1}
+        }
+    }
+
+    async process() {
+        this.preStatusCheck()
+        if (this.taskLock) return
+        if (!this.queue.length) return
+        try {
+            this.taskLock = true
+            const data = this.queue.shift();
+            await this.submit.call(this, data);
+            this.taskLock = false
+            this.process();
+        } catch (error) {
+            throw new Error(JSON.stringify(error))
+        }
     }
 
     isStarted() {
@@ -29,40 +67,35 @@ export class MidjourneyApi {
         }
     }
 
-    submit(data: any) {
+    async submit(data: any): Promise<void> {
         this.preStatusCheck()
-        const taskId = this.generateTaskId()
+        const taskId = data.taskId ?? null
+        if (!taskId) throw new Error("not found task")
         if (data.action === 'IMAGINE') {
-            this.taskCall(taskId, this.client?.Imagine(
+            await this.taskCall(taskId, this.client?.Imagine(
                 data.prompt,
                 this.taskLoading(taskId)
             ))
         } else if (data.action === 'CUSTOM') {
-            this.taskCall(taskId, this.client?.Custom({
+            await this.taskCall(taskId, this.client?.Custom({
                 msgId: data.msgId,
                 flags: data.flags,
                 customId: data.cmd,
                 loading: this.taskLoading(taskId)
             }))
         } else {
-            return {taskId, status: 'FAIL', msg: 'not support action', code: 1}
+            throw new Error("not support action")
         }
-        this.tasks[taskId] = {
-            taskId,
-            prompt: data.prompt,
-            action: data.action,
-            cmd: data.cmd,
-            status: 'SUBMITTED',
-            code: 0
-        }
-        console.log('submit tasks', this.tasks)
-        return this.tasks[taskId]
     }
 
-    status(taskId: string) {
-        console.log('tasks', this.tasks)
+    status(taskId: string): {} {
         console.log('get task status', taskId)
         this.preStatusCheck()
+        if (this.tasks[taskId] && ['QUEUE'].includes(this.tasks[taskId].status)) {
+            const currentIndex = this.queue.findIndex((i) => i.taskId === taskId)
+            this.tasks[taskId].status = currentIndex !== -1 ? 'QUEUE' : 'SUBMITTED'
+            this.tasks[taskId].msg = `预计等待 ${currentIndex * 2} 分钟`
+        }
         return this.tasks[taskId] || {taskId, status: 'FAIL', msg: 'not found task', code: 1}
     }
 
@@ -110,29 +143,33 @@ export class MidjourneyApi {
         }
     }
 
-    taskCall(taskId: string, call: Promise<MJMessage | null> | undefined) {
-        if (!call) {
-            return
-        }
-        call.then((res: any) => {
-            const options = res?.options?.filter((item: any) => {
-                return ['U1', 'U2', 'U3', 'U4', 'V1', 'V2', 'V3', 'V4', '🔄', 'Vary (Strong)', 'Vary (Subtle)', 'Zoom Out 2x', 'Zoom Out 1.5x',
-                    '⬅️', '➡️', '⬆️', '⬇️'].includes(item.label)
-            }) || []
-            this.tasks[taskId] = Object.assign(this.tasks[taskId], {
-                status: 'SUCCESS',
-                code: 0,
-                progress: res.progress,
-                uri: res.uri,
-                options: options,
-                width: res.width,
-                height: res.height,
-                msgId: res.id,
-                flags: res.flags,
-                msgHash: res.hash
+    taskCall(taskId: string, call: Promise<MJMessage | null> | undefined): Promise<boolean> {
+        return new Promise(resolve => {
+            if (!call) {
+                resolve(false)
+            }
+            call?.then((res: any) => {
+                const options = res?.options?.filter((item: any) => {
+                    return ['U1', 'U2', 'U3', 'U4', 'V1', 'V2', 'V3', 'V4', '🔄', 'Vary (Strong)', 'Vary (Subtle)', 'Zoom Out 2x', 'Zoom Out 1.5x',
+                        '⬅️', '➡️', '⬆️', '⬇️'].includes(item.label)
+                }) || []
+                this.tasks[taskId] = Object.assign(this.tasks[taskId], {
+                    status: 'SUCCESS',
+                    code: 0,
+                    progress: res.progress,
+                    uri: res.uri,
+                    options: options,
+                    width: res.width,
+                    height: res.height,
+                    msgId: res.id,
+                    flags: res.flags,
+                    msgHash: res.hash
+                })
+                resolve(true)
+            }).catch((e) => {
+                this.tasks[taskId] = Object.assign(this.tasks[taskId], {error: e, status: 'FAIL', code: 1})
+                resolve(false)
             })
-        }).catch((e) => {
-            this.tasks[taskId] = Object.assign(this.tasks[taskId], {error: e, status: 'FAIL', code: 1})
         })
     }
 
