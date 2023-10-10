@@ -1188,7 +1188,7 @@ function _Chat() {
                                 <div className={styles["chat-message-container"]}>
                                     <div className={styles["chat-message-header"]}>
                                         <div className={styles["chat-message-avatar"]}>
-                                            <div className={styles["chat-message-edit"]}>
+                                            {session.mask.modelConfig.model !== "midjourney" && <div className={styles["chat-message-edit"]}>
                                                 <IconButton
                                                     icon={<EditIcon/>}
                                                     onClick={async () => {
@@ -1207,7 +1207,7 @@ function _Chat() {
                                                         });
                                                     }}
                                                 ></IconButton>
-                                            </div>
+                                            </div>}
                                             {isUser ? (
                                                 <Avatar avatar={config.avatar}/>
                                             ) : (
@@ -1215,7 +1215,7 @@ function _Chat() {
                                             )}
                                         </div>
 
-                                        {showActions && (
+                                        {showActions && session.mask.modelConfig.model !== "midjourney" && (
                                             <div className={styles["chat-message-actions"]}>
                                                 <div className={styles["chat-input-actions"]}>
                                                     {message.streaming ? (
