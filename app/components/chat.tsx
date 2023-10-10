@@ -469,7 +469,7 @@ export function ChatActions(props: {
 
     return (
         <div className={styles["chat-input-actions"]}>
-            {couldStop && (
+            {currentModel !== "midjourney" && (<>{couldStop && (
                 <ChatAction
                     onClick={stopAll}
                     text={Locale.Chat.InputActions.Stop}
@@ -534,7 +534,7 @@ export function ChatActions(props: {
                         }
                     });
                 }}
-            />
+            /></>)}
 
             <ChatAction
                 onClick={() => setShowModelSelector(true)}
@@ -1394,6 +1394,8 @@ function _Chat() {
                         placeholder={
                             useImages.length > 0 && mjImageMode != "IMAGINE"
                                 ? Locale.Midjourney.InputDisabled
+                                : session.mask.modelConfig.model.startsWith("midjourney")
+                                ? `${submitKey} 发送，建议使用英文提示词来开始绘画`
                                 : Locale.Chat.Input(submitKey)
                         }
                         onInput={(e) => onInput(e.currentTarget.value)}
