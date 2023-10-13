@@ -29,7 +29,7 @@ async function handle(req: NextRequest, {params}: { params: { path: string[] } }
         } catch (e) {
             return NextResponse.json({code: 1, status: 'FAIL', msg: '无效的请求数据'}, {status: 200});
         }
-        return NextResponse.json(api.push(data), {status: 200});
+        return NextResponse.json(api.submit(data), {status: 200});
     } else if (path.startsWith('task/status') && params.path.length == 3) {
         return NextResponse.json(api.status(params.path[2]), {status: 200});
     }
