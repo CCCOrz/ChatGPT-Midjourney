@@ -18,6 +18,8 @@ const cn = {
     Later: "稍后再说",
   },
   Midjourney: {
+    Typing: "正在处理…",
+    BotHello: "欢迎使用 Midjourney",
     SelectImgMax: (max: number) => `最多可选择 ${max} 张图片`,
     InputDisabled: "该模式下不支持输入内容",
     HasImgTip:
@@ -51,7 +53,7 @@ const cn = {
     Url: "地址",
     ImageAgent: "图像代理",
     ImageAgentOpenTip:
-      "开启之后，返回的Midjourney图片将会通过本程序自身代理，所以本程序需要处于可以访问cdn.discordapp.com的网络环境中才有效",
+      "通过本程序代理访问 cdn.discordapp.com",
   },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,

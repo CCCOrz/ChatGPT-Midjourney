@@ -537,11 +537,11 @@ export function ChatActions(props: {
                 }}
             /></>)}
 
-            <ChatAction
+            {/* <ChatAction
                 onClick={() => setShowModelSelector(true)}
                 text={currentModel}
                 icon={<RobotIcon/>}
-            />
+            /> */}
 
              {/* <ChatAction
                 onClick={selectImage}
@@ -747,6 +747,7 @@ function _Chat() {
             return;
         }
         try {
+            session.mask.modelConfig.model === "midjourney" && (setUserInput(""))
             const res: any = await chatStore.onUserInput(userInput, {
                 useImages,
                 mjImageMode,
@@ -1151,11 +1152,11 @@ function _Chat() {
                     )}
                 </div>
 
-                <PromptToast
+                {/* <PromptToast
                     showToast={!hitBottom}
                     showModal={showPromptModal}
                     setShowModal={setShowPromptModal}
-                />
+                /> */}
             </div>
 
             <div
@@ -1257,7 +1258,7 @@ function _Chat() {
                                     </div>
                                     {showTyping && (
                                         <div className={styles["chat-message-status"]}>
-                                            {Locale.Chat.Typing}
+                                            {session.mask.modelConfig.model === "midjourney" ? isUser ? Locale.Chat.Typing : Locale.Midjourney.Typing : Locale.Chat.Typing}
                                         </div>
                                     )}
                                     <div className={styles["chat-message-item"]}>
@@ -1312,7 +1313,7 @@ function _Chat() {
                                             </div>
                                         )}
                                     <div className={styles["chat-message-action-date"]}>
-                                        {isContext
+                                        {isContext && false
                                             ? Locale.Chat.IsContext
                                             : message.date.toLocaleString()}
                                     </div>
@@ -1396,7 +1397,7 @@ function _Chat() {
                             useImages.length > 0 && mjImageMode != "IMAGINE"
                                 ? Locale.Midjourney.InputDisabled
                                 : session.mask.modelConfig.model.startsWith("midjourney")
-                                ? `${submitKey} 发送，建议使用英文提示词来开始绘画`
+                                ? `${submitKey} 发送`
                                 : Locale.Chat.Input(submitKey)
                         }
                         onInput={(e) => onInput(e.currentTarget.value)}

@@ -204,7 +204,7 @@ export function MessageExporter() {
               ))}
             </Select>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             title={Locale.Export.IncludeContext.Title}
             subTitle={Locale.Export.IncludeContext.SubTitle}
           >
@@ -217,7 +217,7 @@ export function MessageExporter() {
                 );
               }}
             ></input>
-          </ListItem>
+          </ListItem> */}
         </List>
         <MessageSelector
           selection={selection}
@@ -354,13 +354,13 @@ export function PreviewActions(props: {
           icon={<DownloadIcon />}
           onClick={props.download}
         ></IconButton>
-        <IconButton
+        {/* <IconButton
           text={Locale.Export.Share}
           bordered
           shadow
           icon={loading ? <LoadingIcon /> : <ShareIcon />}
           onClick={share}
-        ></IconButton>
+        ></IconButton> */}
       </div>
       <div
         style={{
@@ -465,7 +465,7 @@ export function ImagePreviewer(props: {
         ref={previewRef}
       >
         <div className={styles["chat-info"]}>
-          <div className={styles["logo"] + " no-dark"}>
+          {/* <div className={styles["logo"] + " no-dark"}>
             <NextImage
               src={ChatGptIcon.src}
               alt="logo"
@@ -484,7 +484,7 @@ export function ImagePreviewer(props: {
               <span className={styles["icon-space"]}>&</span>
               <ExportAvatar avatar={mask.avatar} />
             </div>
-          </div>
+          </div> */}
           <div>
             <div className={styles["chat-info-item"]}>
               {Locale.Exporter.Model}: {mask.modelConfig.model}

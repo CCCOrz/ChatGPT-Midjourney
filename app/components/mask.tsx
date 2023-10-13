@@ -304,7 +304,7 @@ export function ContextPrompts(props: {
 
   return (
     <>
-      <div className={chatStyle["context-prompt"]} style={{ marginBottom: 20 }}>
+      {/* <div className={chatStyle["context-prompt"]} style={{ marginBottom: 20 }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="context-prompt-list">
             {(provided) => (
@@ -372,7 +372,7 @@ export function ContextPrompts(props: {
             />
           </div>
         )}
-      </div>
+      </div> */}
     </>
   );
 }
